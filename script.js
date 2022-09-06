@@ -93,8 +93,8 @@ function deleteTodoFromStorage(deletetodo) {
   localStorage.setItem(todos, JSON.stringify(todos));
 }
 //delete all items
+
 function deleteAllitems(e) {
-  if (taskList.length >= 1) {
     if (confirm("Are you sure you want to delete all items?")) {
       while (taskList.firstChild) {
         taskList.removeChild(taskList.firstChild);
@@ -102,7 +102,4 @@ function deleteAllitems(e) {
       localStorage.clear();
       //taskList.innerHTML="";
     }
-  }else{
-    alert("the list is clear!");
-  }
 }
