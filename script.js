@@ -13,6 +13,9 @@ function eventListeners(){
     //delete ann item
     taskList.addEventListener("click",deleteItem);
 }
+//delete all item
+btnDeleteAll.addEventListener("click",deleteAllitems);
+
 
 function addNewItem(e){
     if(input.value===''){
@@ -42,7 +45,23 @@ function addNewItem(e){
 
 //delete ann elements
 function deleteItem(e){
-    if(e.target.className==="fas fa-times"){
-        console.log(e.target);
+    if(confirm("Are you sure you want to delete?")){
+        if(e.target.className==="fas fa-times"){
+            // console.log(e.target);
+            e.target.parentElement.parentElement.remove()
+         }
     }
+
+}
+//delete all items
+function deleteAllitems(e){
+    if(confirm("Are you sure you want to delete all items?")){
+        taskList.childNodes.forEach(function(item){
+           // console.log(item);
+           if(item.nodeType===1){
+            item.remove();
+           }
+        })
+    }
+    //taskList.innerHTML="";
 }
