@@ -78,21 +78,30 @@ function deleteItem(e){
         if(e.target.className==="fas fa-times"){
             if(confirm("Are you sure you want to delete?")){
             // console.log(e.target);
-            e.target.parentElement.parentElement.remove()
-         }
+            e.target.parentElement.parentElement.remove();
+            deleteTodoFromStorage(e.target.parentElement.parentElement.textContent);
+        }
     }
 
+}
+//delete todo items from local storage
+function deleteTodoFromStorage(deletetodo){
+    let todos = getItemsFromLS();
+    todos.forEach(function(todo,index){
+        if(todo===deletetodo){
+            todos.splice(index,1);
+        }
+    });
+    localStorage.setItem(todos,JSON.stringify(todos));
 }
 //delete all items
 function deleteAllitems(e){
     if(confirm("Are you sure you want to delete all items?")){
-        // taskList.childNodes.forEach(function(item){
-        //    // console.log(item);
-        //    if(item.nodeType===1){
-        //     item.remove();
-        //    }
-        // })
-        taskList.innerHTML="";
+        while(taskList.firstChild){
+            taskList.removeChild(taskList.firstChild);
+        }
+        localStorage.clear();
+        //taskList.innerHTML="";
     }
     
 }
