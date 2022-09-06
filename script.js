@@ -5,7 +5,7 @@ const input = document.querySelector("#txtTaskName");
 const btnAddNewTask = document.querySelector("#btnAddNewTask");
 const btnDeleteAll = document.querySelector("#btnDeleteAll");
 const taskList = document.querySelector("#task-list");
-const items = ["Todo 1", "Todo 2","Todo 3","Todo 4"];
+let todos;
 
 //load items
 loadItems();
@@ -21,16 +21,32 @@ function eventListeners(){
 btnDeleteAll.addEventListener("click",deleteAllitems);
 
 function loadItems(){
-    items.forEach(function(item){
+    todos=getItemsFromLS();
+    todos.forEach(function(item){
         createItem(item);
-    })
+    }) 
+}
+//get items from local storage
+function getItemsFromLS(){
+    if(localStorage.getItem("todos")=== null){
+        todos =  [];
+    }else{
+        todos = JSON.parse(localStorage.getItem("todos"));
+    }
+    return todos;
+}
+//set ıtem to local stroge
+function setItemToLS(newTodo){
+    todos = getItemsFromLS();
+    todos.push(newTodo);
+    localStorage.setItem("todos",JSON.stringify(todos));
 }
 
-function createItem(text){
+function createItem(newTodo){
         // create li
         const li = document.createElement("li");
         li.className = "list-group-item list-group-item-secondary";
-        li.appendChild(document.createTextNode(text));
+        li.appendChild(document.createTextNode(newTodo));
         //create a
         const a = document.createElement("a");
         a.classList = "delete-item float-right";
@@ -48,8 +64,9 @@ function addNewItem(e){
         console.log("submit");
 
     }
-    createItem(input.value);
 
+    setItemToLS(input.value);
+    createItem(input.value);
     input.value ="";
 
     e.preventDefault();
@@ -69,12 +86,13 @@ function deleteItem(e){
 //delete all items
 function deleteAllitems(e){
     if(confirm("Are you sure you want to delete all items?")){
-        taskList.childNodes.forEach(function(item){
-           // console.log(item);
-           if(item.nodeType===1){
-            item.remove();
-           }
-        })
+        // taskList.childNodes.forEach(function(item){
+        //    // console.log(item);
+        //    if(item.nodeType===1){
+        //     item.remove();
+        //    }
+        // })
+        taskList.innerHTML="";
     }
-    //taskList.innerHTML="";
+    
 }
